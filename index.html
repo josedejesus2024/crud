@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Cursos</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.14.2/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    <style>
+        #oculto {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!--    Este es nuestro navbarr-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <h6 class="navbar-brand">CRUD chuy</h6>
+                </li>
+                <li class="nav-item" id="inscripcionesNav">
+                    <a class="nav-link" href="#">Inscripciones</a>
+                </li>
+                <li class="nav-item" id="cursosNav">
+                    <a class="nav-link" href="#">Cursos</a>
+                </li>
+                <li class="nav-item" id="usuariosNav">
+                    <a class="nav-link" href="#">Usuarios</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <br><br>
+
+
+    <!-------------------------------------------------------empieza el Inscripciones y modal cursos--------------------->
+    <div id="oculto">
+        <div id="idInscrpciones">
+            <div id="NuevoI" class="d-flex justify-content-center ">
+                <a type="submit" class="btn btn-success"> Nuevo </a>
+            </div>
+            <div class="mx-auto w-75 p-5">
+
+                <table class="table" id="BotonesIEE">
+                    <thead class="thead-Secondary">
+                        <tr>
+                            <th scope="col">#id</th>
+                            <th scope="col">Nombre curso</th>
+                            <th scope="col">Descripcion curso</th>
+                            <th scope="col">Nombre usuario</th>
+                            <th scope="col">Eliminar</th>
+                            <th scope="col">Actualizar</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody id="TablaIns">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+<!-------------------------------------------------------Modal para registar inscripcion--------------------->
+            <div id="modalI" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Registrar Alumno a Curso
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formI">
+                                <div class="mb-3">
+                                    <input id="controlI" name="controlI" value="1" hidden>
+                                    <label class="form-label">Selecciona Alumno </label>
+                                    <select id="seleccionC" class="form-select" aria-label="Default select example">
+                                        <option value="">Selecciona un Alumno</option>
+                                    </select>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Selecciona curso </label>
+                                    <select id="seleccionU" class="form-select" aria-label="Default select example">
+                                        <option value="">Selecciona un curso</option>
+                                    </select>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        id="cerrarI">Cerrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+<!-------------------------------------------------------Modal para actualizar inscripcions--------------------->
+            <div id="modalIU" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Actualizar Alumno a Curso
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formIU">
+                                <div class="mb-3">
+                                    <input id="controlIU" name="controlIU" value="9" hidden>
+                                    <input id="id_i" name="id_i" hidden>
+                                    <label class="form-label">Curso Actual: </label>
+                                    <select id="seleccionCU" class="form-select" aria-label="Default select example">
+                                    </select>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Alumno Actual: </label>
+                                    <select id="seleccionUU" class="form-select" aria-label="Default select example">
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        id="cerrarIU">Cerrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-------------------------------------------------------empieza el curso y el modal curso--------------------->
+
+        <div id="idCurso">
+            <div id="NuevoC" class="d-flex justify-content-center ">
+                <a href="#" class="btn btn-success"> Nuevo </a>
+            </div>
+            <div class="mx-auto w-75 p-5">
+                <table class="table" id="BotonesCEE">
+                    <thead class="thead-Secondary">
+                        <tr>
+                            <th scope="col">#id</th>
+                            <th scope="col">Nombre curso</th>
+                            <th scope="col">Descripcion curso</th>
+                            <th scope="col">Eliminar</th>
+                            <th scope="col">Actualizar</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="TablaCur">
+
+                    </tbody>
+                </table>
+            </div>
+<!-------------------------------------------------------modal para ingresar nuevo curso-------------------->
+            <div id="modalC" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Registrar Curso</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="formC">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <input id="controlC" name="controlC" value="2" hidden>
+                                    <label class="form-label">Nombre de Curso </label>
+                                    <input type="text" class="form-control" id="nombreC" name="nombreC"
+                                        placeholder="Nombres del curso">
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Descripcion del curso </label>
+                                    <input type="text" class="form-control" id="descripcionC" name="descripcionC"
+                                        placeholder="Descripcion del curso">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="cerrarC">Cerrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+<!-----------------------------------------------------modal para  actualizar un curso --------------------->
+            <div id="modalCU" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Registrar Curso</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+
+                        <div class="modal-body">
+                            <form id="formCU">
+                                <div class="mb-3">
+                                    <input id="controlCU" name="controlCU" value="11" hidden>
+                                    <input id="id_ic" name="id_ic" hidden>
+                                    <label class="form-label">Nombre de Curso </label>
+                                    <label id="nombreCU" name="nombreCU" class="form-label"></label>
+
+                                </div>
+                                <div class="mb-5">
+                                    <label name="descripcionCU">Descripcion del curso</label>
+                                    <label class="form-label" id="descripcionCU" name="descripcionCU"></label>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        id="cerrarCU">Cerrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--    Este es nuestro formulario para registrar usuarios  -->
+
+        <div id="idUsuario">
+            <div id="NuevoU" class="d-flex justify-content-center ">
+                <a href="#" class="btn btn-success"> Nuevo </a>
+            </div>
+            <div class="mx-auto w-75 p-5">
+                <table class="table" id="BotonesUEE">
+                    <thead class="thead-Secondary">
+                        <tr>
+                            <th scope="col">#id</th>
+                            <th scope="col">Nombre alumno</th>
+                            <th scope="col">Eliminar</th>
+                            <th scope="col">Actualizar</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="TablaUsu">
+
+                    </tbody>
+                </table>
+            </div>
+<!--------------------------------------modal para rregistrar un alumno--------------------->
+            <div id="modalU" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Registrar nuevo Alumno</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="formU">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <input id="controlU" name="controlU" value="3" hidden>
+                                    <label class="form-label">Nombre de Alumno </label>
+                                    <input type="text" class="form-control" id="nombreU" name="nombreU"
+                                        placeholder="Nombres del Alumno">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="button" class="btn btn-secondary" id="cerrarU"
+                                    data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+<!----------------------------------------modal para actualizar un alumno--------------------->
+            <div id="modalUU" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Actualizar Alumno</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="formUU">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <input id="controlUU" name="controlUU" value="13" hidden>
+                                    <label class="form-label">Nombre de Alumno </label>
+                                    <label id="nombreUU" name="nombreUU" class="form-label"></label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="button" class="btn btn-secondary" id="cerrarUU"
+                                    data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.2/dist/sweetalert2.all.min.js "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/scrpipt.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
