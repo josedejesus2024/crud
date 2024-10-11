@@ -1,6 +1,29 @@
 /*     aqui desplegamos los modulos de inscripciones y mostramos las inscripciones */
 
 $(document).ready(function () {
+
+    /* VAriables para mostrar */
+
+    const urlParams = new URLSearchParams(window.location.search);
+    recargar = urlParams.get('recargar');
+    if (recargar == 1) {
+        //aqui recargamos si agrega una nueva inscripcion, elimina o actualiza una inscrpipcion
+        setTimeout(function () {
+            $('#inscripcionesNav').click();
+        }, 200);
+    } else if (recargar == 2) {
+        //aqui recargamos si agrega una nueva cursos, elimina o actualiza un curso
+        setTimeout(function () {
+            $('#cursosNav').click();
+        }, 200);
+    } else if (recargar == 3) {
+        //aqui recargamos si agrega una nueva usuario, elimina o actualiza un usuario
+        setTimeout(function () {
+            $('#usuariosNav').click();
+        }, 200);
+    }
+
+
     $("#inscripcionesNav").click(function () {
         const datos = {
             control: '5'
@@ -35,13 +58,13 @@ $(document).ready(function () {
                     icon: "error",
                     title: "Oops...",
                     text: "Hubo un error al cargar los datos."
-                  });
+                });
             }
         });
 
     });
 
-/*     aqui desplegamos el modal de inscrpicones y le insertamos valores para actualizar  */
+    /*     aqui desplegamos el modal de inscrpicones y le insertamos valores para actualizar  */
     $('#BotonesIEE').on('click', '.accion', function () {
         var id = $(this).attr('id');
         const datos = {
@@ -54,7 +77,7 @@ $(document).ready(function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
 
                 if (response.con == 1) {
@@ -62,8 +85,15 @@ $(document).ready(function () {
                     Swal.fire({
                         title: "Eliminado!",
                         text: "Eliminado correctamnete!",
-                        icon: "success"
-                      });
+                        icon: "error"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const recargar = 1;
+                            window.location = `/crud?recargar=${recargar}`;
+                            console.log('Respuesta:', response.mensaje);
+                        }
+                    });
+
                 } else if (response.con == 2) {
                     $('#id_i').html(`<input id="id_iii" name="id_iii" value="${datos.botonEE}" hidden>`);
                     $('#seleccionCU').html(`<option value="${response.cursoA}">Selecciona un curso</option>`);
@@ -87,14 +117,14 @@ $(document).ready(function () {
                     icon: "error",
                     title: "Oops...",
                     text: "Hubo un error al cargar los datos."
-                  });
+                });
 
 
             }
         });
     });
 
-/*     aqui desplegamos los modulos de curos y mostramos las curos */
+    /*     aqui desplegamos los modulos de curos y mostramos las curos */
     $("#cursosNav").click(function () {
         const datos = {
             control: '6'
@@ -104,7 +134,7 @@ $(document).ready(function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
                 $('#TablaCur').html('<tr hidden></tr>');
                 control = 0;
@@ -127,13 +157,13 @@ $(document).ready(function () {
                     icon: "error",
                     title: "Oops...",
                     text: "Hubo un error al cargar los datos."
-                  });
+                });
             }
         });
 
     });
 
-/*     aqui desplegamos el modal de curos y le insertamos valores para actualizar  */
+    /*     aqui desplegamos el modal de curos y le insertamos valores para actualizar  */
     $('#BotonesCEE').on('click', '.accion', function () {
         var id = $(this).attr('id');
         const datos = {
@@ -146,7 +176,7 @@ $(document).ready(function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
 
                 if (response.con == 1) {
@@ -154,8 +184,14 @@ $(document).ready(function () {
                     Swal.fire({
                         title: "Eliminado!",
                         text: "Eliminado correctamnete!",
-                        icon: "success"
-                      });
+                        icon: "error"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const recargar = 2;
+                            window.location = `/crud?recargar=${recargar}`;
+                            console.log('Respuesta:', response.mensaje);
+                        }
+                    });
                 } else if (response.con == 2) {
                     console.log(response.uno);
                     $('#id_ic').html(`<input id="id_icu" name="id_icu" value="${datos.botonEE}" hidden>`);
@@ -172,7 +208,7 @@ $(document).ready(function () {
                     icon: "error",
                     title: "Oops...",
                     text: "Hubo un error al cargar los datos."
-                  });
+                });
 
 
             }
@@ -183,7 +219,7 @@ $(document).ready(function () {
 
 
 
-/*     aqui desplegamos los modulos de usuarios y mostramos las usuarios */
+    /*     aqui desplegamos los modulos de usuarios y mostramos las usuarios */
 
     $("#usuariosNav").click(function () {
         const datos = {
@@ -194,7 +230,7 @@ $(document).ready(function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
                 $('#TablaUsu').html('<tr hidden></tr>');
                 control = 0;
@@ -216,7 +252,7 @@ $(document).ready(function () {
                     icon: "error",
                     title: "Oops...",
                     text: "Hubo un error al cargar los datos."
-                  });
+                });
             }
         });
 
@@ -225,7 +261,7 @@ $(document).ready(function () {
 
 
 
-/*     aqui desplegamos el modal de usuarios y le insertamos valores para actualizar  */
+    /*     aqui desplegamos el modal de usuarios y le insertamos valores para actualizar  */
     $('#BotonesUEE').on('click', '.accion', function () {
         var id = $(this).attr('id');
         const datos = {
@@ -238,7 +274,7 @@ $(document).ready(function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
 
                 if (response.con == 1) {
@@ -246,8 +282,14 @@ $(document).ready(function () {
                     Swal.fire({
                         title: "Eliminado!",
                         text: "Eliminado correctamnete!",
-                        icon: "success"
-                      });
+                        icon: "error"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const recargar = 3;
+                            window.location = `/crud?recargar=${recargar}`;
+                            console.log('Respuesta:', response.mensaje);
+                        }
+                    });
                 } else if (response.con == 2) {
                     console.log(response.uno);
                     console.log(response.uno[0].nombre_u);
@@ -264,7 +306,7 @@ $(document).ready(function () {
                     icon: "error",
                     title: "Oops...",
                     text: "Hubo un error al cargar los datos."
-                  });
+                });
 
             }
         });
@@ -275,17 +317,17 @@ $(document).ready(function () {
 
 
 
-/* ocultamos las demas paginas para que todo sea en un archivo html*/
+    /* ocultamos las demas paginas para que todo sea en un archivo html*/
     $("#NuevoC").click(function () {
         $('#modalC').modal('show');
     });
 
-/* ocultamos las demas paginas para que todo sea en un archivo html*/
+    /* ocultamos las demas paginas para que todo sea en un archivo html*/
     $("#NuevoU").click(function () {
         $('#modalU').modal('show');
     });
 
-/*     enviamos formulario de usuarios*/
+    /*     enviamos formulario de usuarios*/
 
     $('#formU').on('submit', function (event) {
         event.preventDefault();
@@ -299,21 +341,40 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(datos),
             success: function (response) {
-                 /*recibimos respuesta del json que enviamos al controlador php */
+                /*recibimos respuesta del json que enviamos al controlador php */
                 console.log('Respuesta:', response);
-                alert(response.mensaje);
+
+
                 $('#nombreU').val('');
                 $('#cerrarU').click();
+
+                Swal.fire({
+                    title: "Regitrado!",
+                    text: "Regitro correctamnete!",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const recargar = 3;
+                        window.location = `/crud?recargar=${recargar}`;
+                        console.log('Respuesta:', response.mensaje);
+                    }
+                });
+
+
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            error: function (textStatus, errorThrown) {
                 console.error('Error:', textStatus, errorThrown);
-                alert('No se registro: ' + response.mensaje);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.mensaje
+                });
                 $('#nombreU').val('');
                 $('#cerrarU').click();
             }
         });
     });
-/*     enviamos formulario de curos*/
+    /*     enviamos formulario de curos*/
     $('#formC').on('submit', function (event) {
         event.preventDefault();
         //console.log('holaa');
@@ -329,24 +390,39 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(datos),
             success: function (response) {
-                 /*recibimos respuesta del json que enviamos al controlador php */
+                /*recibimos respuesta del json que enviamos al controlador php */
                 console.log('Respuesta:', response);
-                alert(response.mensaje);
+
                 $('#nombreC').val('');
                 $('#descripcionC').val('');
                 $('#cerrarC').click();
+                Swal.fire({
+                    title: "Registrado!",
+                    text: "Registrado correctamnete!",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const recargar = 2;
+                        window.location = `/crud?recargar=${recargar}`;
+                        console.log('Respuesta:', response.mensaje);
+                    }
+                });
             },
             /* en caso de error manda mensaje */
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error('Error:', textStatus, errorThrown);
-                alert('No se registro: ' + response.mensaje);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.mensaje
+                });
                 $('#nombreC').val('');
                 $('#descripcionC').val('');
                 $('#cerrarC').click();
             }
         });
     });
-/*     desplegamos modal de inscripciones*/
+    /*     desplegamos modal de inscripciones*/
     $('#NuevoI').click(function () {
         const datos = {
             control: '4'
@@ -358,7 +434,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(datos),
             success: function (response) {
-                 /*recibimos respuesta del json que enviamos al controlador php */
+                /*recibimos respuesta del json que enviamos al controlador php */
                 //var cursos  =JSON.parse(response);
                 $('#seleccionC').html('<option value="">Selecciona un Alumno</option>');
                 response.uno.forEach(function (curso) {
@@ -384,11 +460,11 @@ $(document).ready(function () {
                     icon: "error",
                     title: "Oops...",
                     text: "Hubo un error al cargar los datos."
-                  });
+                });
             }
         });
     });
-/*     enviamos formulario de  inscripciones*/
+    /*     enviamos formulario de  inscripciones*/
     $('#formI').on('submit', function (event) {
         event.preventDefault();
         const datos = {
@@ -396,17 +472,33 @@ $(document).ready(function () {
             cursoI: $('#seleccionC').val(),
             alumnoI: $('#seleccionU').val()
         };
+        console.log(datos.control);
+        console.log(datos.cursoI);
+        console.log(datos.alumnoI);
+
         $.ajax({
             url: 'controller.php',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
             success: function (response) {
-                 /*recibimos respuesta del json que enviamos al controlador php */
-                console.log('Respuesta:', response.mensaje);
-                alert('registro exitoso');
-                $('#cerrarI').click();
-                //window.location='/crud';
+
+                Swal.fire({
+                    title: "Bien!",
+                    text: "Registado Correctamente!",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const recargar = 1;
+                        window.location = `/crud?recargar=${recargar}`;
+                        console.log('Respuesta:', response.mensaje);
+                        console.log('Respuesta:', response.seg1);
+                        console.log('Respuesta:', response.seg2);
+                        console.log('Respuesta:', response.seg3);
+                    }
+                });
+
+
             },
             /* en caso de error manda mensaje */
             error: function (textStatus, errorThrown) {
@@ -415,7 +507,7 @@ $(document).ready(function () {
             }
         });
     });
-/*     desplegamos modal de usuarios*/
+    /*     desplegamos modal de usuarios*/
     $('#formIU').on('submit', function (event) {
         event.preventDefault();
         const datos = {
@@ -424,17 +516,34 @@ $(document).ready(function () {
             alumnoI: $('#seleccionUU').val(),
             id_i: $('#id_iii').val()
         };
+        console.log(datos.control);
+        console.log('curso ', datos.cursoI);
+        console.log('alumno', datos.alumnoI);
+        console.log('alumno', datos.id_i);
         $.ajax({
             url: 'controller.php',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
                 console.log('Respuesta:', response);
 
-                alert('Actualizacion exitoso');
-                $('#cerrarIU').click();
+                Swal.fire({
+                    title: "Actualizado!",
+                    text: "Actualizado correctamnete!",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const recargar = 1;
+                        window.location = `/crud?recargar=${recargar}`;
+                        console.log('holaaa chuy');
+                        console.log('Respuesta:', response.mensaje);
+                        console.log('Respuesta:', response.seg1);
+                        console.log('Respuesta:', response.seg2);
+                        console.log('Respuesta:', response.seg3);
+                    }
+                });
 
             },
             /* en caso de error manda mensaje */
@@ -445,7 +554,7 @@ $(document).ready(function () {
         });
     });
 
-/*     desplegamos modal de actualizacion de cursos*/
+    /*     desplegamos modal de actualizacion de cursos*/
     $('#formCU').on('submit', function (event) {
         event.preventDefault();
         const datos = {
@@ -459,10 +568,19 @@ $(document).ready(function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
-
-                alert('Actualizacion exitoso');
+                Swal.fire({
+                    title: "Actualizado!",
+                    text: "Actualizado correctamnete!",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const recargar = 2;
+                        window.location = `/crud?recargar=${recargar}`;
+                        console.log('Respuesta:', response.mensaje);
+                    }
+                });
                 $('#cerrarCU').click();
 
             },
@@ -473,7 +591,7 @@ $(document).ready(function () {
             }
         });
     });
-/*     desplegamos modal actualizacion de usuarios */
+    /*     desplegamos modal actualizacion de usuarios */
     $('#formUU').on('submit', function (event) {
         event.preventDefault();
         const datos = {
@@ -489,11 +607,20 @@ $(document).ready(function () {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(datos),
-             /*recibimos respuesta del json que enviamos al controlador php */
+            /*recibimos respuesta del json que enviamos al controlador php */
             success: function (response) {
 
-                alert(response.mensaje);
-                $('#cerrarUU').click();
+                Swal.fire({
+                    title: "Actualizado!",
+                    text: "Actualizado correctamnete!",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const recargar = 3;
+                        window.location = `/crud?recargar=${recargar}`;
+                        console.log('Respuesta:', response.mensaje);
+                    }
+                });
 
             },
             /* en caso de error manda mensaje */

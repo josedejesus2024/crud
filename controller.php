@@ -45,19 +45,22 @@ if ($control == 3) {
     //insertamos inscripcion
 } elseif ($control == 1) {
 
-    if ($datos['cursoI']  && $datos['alumnoI']) {
-        $respuesta2 = $datos['cursoI'];
-        $respuesta3 = $datos['alumnoI'];
-        $sql = "INSERT INTO inscripciones (id_ic, id_iu) VALUES ($respuesta2, $respuesta3)";
+    if ($datos['cursoI']) {
+        $respuesta3 = $datos['cursoI'];
+        $respuesta2 = $datos['alumnoI'];
+        $sql = "INSERT INTO inscripciones (id_ic, id_iu) VALUES ($respuesta2, $respuesta3);";
         $insertarI = $mysqli->query($sql);
         $respuesta = [
             'status' => 'succses',
-            'mensaje' => 'Se registro correctamente: '
+            'mensaje' => 'Se registro correctamente ',
+            'seg1' => $respuesta2,
+            'seg2' => $respuesta3,
+            'seg3' => $sql  
         ];
     } else {
         $respuesta = [
-            'status' => 'error',
-            'mensaje' => 'No se recibieron todos los datos de inscrpcion'
+            'status' => 'error' . $mysqli->error,
+            'mensaje' => 'No se recibieron todos los datos de inscrpcion'  . $mysqli->error
         ];
     }
     //realizamos una consulta a usuarios y desplegamos en el modal
@@ -164,7 +167,7 @@ if ($control == 3) {
     }
 } elseif ($control == 9) {
 // actualizamos las inscripciones
-    if ($datos['cursoI']  && $datos['alumnoI']) {
+    if ($datos['cursoI'] ) {
         $respuesta2 = $datos['cursoI'];
         $respuesta3 = $datos['alumnoI'];
         $respuesta4 = $datos['id_i'];
@@ -172,17 +175,22 @@ if ($control == 3) {
         $sql = "UPDATE inscripciones SET id_ic = '$respuesta2', id_iu = '$respuesta3' WHERE id_i = $respuesta4";
         $insertarI = $mysqli->query($sql);
         if ($insertarI) {
-            $respuesta = [
-                'status' => 'Bien',
-                'mensaje' => 'Se Modifico corrctamente',
-                'con' => '1'
-            ];
+             $respuesta = [
+            'status' => 'succses',
+            'mensaje' => 'Se registro correctamente ',
+            'con' => '1',
+            'seg1' => $respuesta2,
+            'seg2' => $respuesta3,
+            'seg3' => $sql  
+        ];
         } else {
             $respuesta = [
                 'status' => 'Error',
                 'mensaje' => 'Algo salio mal'. $mysqli->error
             ];
         }
+
+       
 
     }
 }elseif ($control == 10) {
@@ -305,8 +313,10 @@ if ($control == 3) {
        
     }
 }
+$mysqli->close();
 
 echo json_encode($respuesta);
+
 
     
 

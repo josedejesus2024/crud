@@ -29,4 +29,4 @@ insert into usuarios (nombre_u) values ('Omar Garrido Mora');
 insert into inscripciones  (id_ic, id_iu)values (1, 1);
 insert into inscripciones  (id_ic, id_iu)values (1, 2);
 insert into inscripciones  (id_ic, id_iu)values (2, 1);
-insert into inscripciones  (id_ic, id_iu)values (2, 2);
+insert into inscripciones  (id_ic, id_iu)values (4, 1);
